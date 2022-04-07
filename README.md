@@ -20,6 +20,8 @@ module
     │   index.test.js
 ```
 
+⚠️ By default the module is created as type _module_ -in case you don't like it, remove "type" property from the ```package.json```-
+
 ### Dependencies
 
 - [eslint](https://eslint.org/)

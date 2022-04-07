@@ -21,7 +21,8 @@ describe('easy-start test', () => {
                 Assert.fileContent([
                     ['README.md', /test-module/],
                     ['test/index.test.js', /first test-module/],
-                    ['package.json', /"author": "Benson"/]
+                    ['package.json', /"author": "Benson"/],
+                    ['package.json', /"type": "module"/],
                   ]);
             });
     });

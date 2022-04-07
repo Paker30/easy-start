@@ -15,6 +15,14 @@
     "yeoman-generator",
     "scaffolding"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paker30/easy-start.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Paker30/easy-start/issues"
+  },
+  "homepage": "https://github.com/Paker30/easy-start#readme",
   "author": "Francisco Moreno <morenocfrancisco86@gmail.com>",
   "license": "MIT",
   "devDependencies": {

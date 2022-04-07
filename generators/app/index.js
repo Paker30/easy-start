@@ -38,6 +38,7 @@ module.exports = class extends Generator {
             files: [
                 'src'
             ],
+            type: 'module',
             author: this.answers.author,
             scripts: {
                 'test': 'jest'
