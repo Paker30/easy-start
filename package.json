@@ -1,6 +1,6 @@
 {
   "name": "generator-easy-start",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Minimal configuration to start from scratch",
   "main": "index.js",
   "files": [

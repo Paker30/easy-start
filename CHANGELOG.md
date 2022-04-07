@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.4.2 (2022-04-07)
+
 ### 1.4.1 (2022-04-07)
 
 ## [1.4.0](https://github.com/Paker30/easy-start/compare/v1.3.0...v1.4.0) (2022-04-07)
