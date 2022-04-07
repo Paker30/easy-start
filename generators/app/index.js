@@ -49,7 +49,8 @@ module.exports = class extends Generator {
                 'jest': '^27.5.1'
             },
             engines: {
-                node: '>=12'
+                node: '>=12',
+                npm: ">=6"
             },
             jest: {
                 roots: [

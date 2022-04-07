@@ -7,7 +7,8 @@
     "generators"
   ],
   "scripts": {
-    "commit": "cz"
+    "commit": "cz",
+    "test": "mocha --reporter spec --timeout 5000"
   },
   "keywords": [
     "yeoman-generator",
@@ -15,12 +16,18 @@
   ],
   "author": "Francisco Moreno <morenocfrancisco86@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "yeoman-generator": "^5.6.1"
-  },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "mocha": "^9.2.2",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-environment": "^3.9.1",
+    "yeoman-generator": "^5.6.1",
+    "yeoman-test": "^6.3.0"
+  },
+  "engines": {
+    "node": ">=12",
+    "npm": ">=6"
   },
   "config": {
     "commitizen": {
