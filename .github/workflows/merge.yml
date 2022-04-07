@@ -1,0 +1,23 @@
+name: merge
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: npm i
+      - run: npm test
+      - run: npm run release
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          `git push --follow-tags origin main
+      - run: npm publish
