@@ -18,5 +18,3 @@ jobs:
           node-version: ${{ matrix.node }}
       -  run: npm i
       -  run: npm test
-      -  run: npm run release
-      -  run: git push --follow-tags origin main && npm publish
