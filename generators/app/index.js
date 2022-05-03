@@ -28,11 +28,43 @@ module.exports = class extends Generator {
                 message: 'Who is the author of this awesome module?',
                 validate: (author = '') => author ? true : 'Author can\'t be empty',
                 store: true
-            }
+            },
+            {
+                type: 'confirm',
+                name: 'api',
+                message: 'Do you want to add an API framework?',
+                default: false,
+                store: true
+            },
+            {
+                type: 'list',
+                name: 'apiFramework',
+                message: 'Which API do you want?',
+                choices: [
+                    'express',
+                    'hapi',
+                    'none of the above'
+                ],
+                when: (answers) => answers.api,
+                store: true
+            },
         ]);
     }
 
     writing() {
+        let apiModules;
+        switch(this.answers.apiFramework) {
+            case 'express':
+                apiModules = {'express' : "^4.18.1"};
+                break;
+            case 'express':
+                apiModules = {'@hapi/hapi' : "^20.2.2"};
+                break;
+           default:
+                apiModules = null;
+
+        };
+
         const pkgJson = {
             main: 'src/index.js',
             files: [
@@ -65,7 +97,7 @@ module.exports = class extends Generator {
             }
         };
 
-        this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
+        this.fs.extendJSON(this.destinationPath('package.json'), apiModules ? {...pkgJson, dependencies: {...apiModules}} : pkgJson);
         this.fileList(this.answers).map(({ origin, destination, variables }) => {
             this.fs.copyTpl(
                 this.templatePath(origin),

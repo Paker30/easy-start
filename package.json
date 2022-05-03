@@ -48,5 +48,8 @@
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
     }
+  },
+  "dependencies": {
+    "generator-easy-start": "^1.4.2"
   }
 }
