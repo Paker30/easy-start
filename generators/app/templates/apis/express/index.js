@@ -2,11 +2,11 @@ import express from 'express';
 
 const app = express();
 import { helloWorld } from './api/helloWorld.js';
-import { version } from './api/version.js';
+import { apiVersion } from './api/version.js';
 app.use(express.json());
 const PORT = 8000;
 
-app.get('/version', version);
+app.get('/health-check', apiVersion);
 app.get('/hello-world', helloWorld);
 
 app.listen(PORT, () => {

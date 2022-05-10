@@ -75,6 +75,7 @@ module.exports = class extends Generator {
 
         const pkgJson = {
             main: 'src/index.js',
+            version: '1.0.0',
             files: [
                 'src'
             ],
@@ -116,7 +117,7 @@ module.exports = class extends Generator {
                     scripts: {
                         start: 'node src/index.js',
                         test: 'jest',
-                        build: 'docker build . -t ' + this.answers.appname + ':${npm_package_version} -t ' + this.answers.appname + ':latest'
+                        build: 'docker build . -t ' + this.answers.name + ':${npm_package_version} -t ' + this.answers.name + ':latest'
                     }
                 }
                 : pkgJson

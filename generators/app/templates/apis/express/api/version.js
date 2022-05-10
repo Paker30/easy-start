@@ -1,11 +1,10 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { version } = require('../package.json');
+import pkg from '../../package.json' assert {type: "json"};
 
-const version = (req, res) => {
-    res.send(version);
+const apiVersion = (req, res) => {
+    console.log(pkg)
+    res.send(pkg.version);
 };
 
 export {
-    version
+    apiVersion
 };

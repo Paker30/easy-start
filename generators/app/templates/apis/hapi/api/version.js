@@ -1,4 +1,3 @@
-import { createRequire } from 'module';
 import pkg from '../../package.json' assert {type: "json"};
 
 const apiVersion = {
