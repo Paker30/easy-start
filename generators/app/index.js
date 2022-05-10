@@ -53,14 +53,14 @@ module.exports = class extends Generator {
 
     writing() {
         let apiModules;
-        switch(this.answers.apiFramework) {
+        switch (this.answers.apiFramework) {
             case 'express':
-                apiModules = {'express' : "^4.18.1"};
+                apiModules = { dependencies: { 'express': "^4.18.1" } };
                 break;
             case 'express':
-                apiModules = {'@hapi/hapi' : "^20.2.2"};
+                apiModules = { dependencies: { '@hapi/hapi': "^20.2.2" } };
                 break;
-           default:
+            default:
                 apiModules = null;
 
         };
@@ -75,6 +75,7 @@ module.exports = class extends Generator {
             scripts: {
                 'test': 'jest'
             },
+            type: "module",
             devDependencies: {
                 'eslint': '^8.10.0',
                 'eslint-config-airbnb-base': '^15.0.0',
@@ -97,13 +98,46 @@ module.exports = class extends Generator {
             }
         };
 
-        this.fs.extendJSON(this.destinationPath('package.json'), apiModules ? {...pkgJson, dependencies: {...apiModules}} : pkgJson);
+        this.fs.extendJSON(
+            this.destinationPath('package.json'),
+            apiModules
+                ? { ...pkgJson, ...apiModules, scripts: { start: 'node src/index.js', test: 'jest', "build": `docker build . -t ${this.answers.appname}:${npm_package_version} -t ${this.answers.appname}:latest`, } }
+                : pkgJson
+        );
         this.fileList(this.answers).map(({ origin, destination, variables }) => {
-            this.fs.copyTpl(
-                this.templatePath(origin),
-                this.destinationPath(destination),
-                variables
-            );
+            switch (origin) {
+                case 'README.md':
+                case '.gitignore':
+                case '.eslintrc':
+                case '.eslintrc':
+                case 'index.test.js':
+                    this.fs.copyTpl(
+                        this.templatePath(origin),
+                        this.destinationPath(destination),
+                        variables
+                    );
+                    break;
+                case 'index.js':
+                    const files = this.answers.api && this.answers.apiFramework !== 'none of the above'
+                        ? [
+                            { origin: `apis/${this.answers.apiFramework}/index.js`, destination },
+                            { origin: `apis/${this.answers.apiFramework}/api/helloWorld.js`, destination: 'src/api/helloWorld.js' },
+                            { origin: 'Dockerfile', destination: 'Dockerfile', variables: { author: this.answers.author, email: this.answers.email } },
+                            { origin: '.dockerignore', destination: '.dockerignore' }
+                        ]
+                        : [{ origin, destination }];
+                    files.map(({ origin, destination, variables }) => {
+                        this.fs.copyTpl(
+                            this.templatePath(origin),
+                            this.destinationPath(destination),
+                            variables
+                        );
+                    })
+                    break;
+                default:
+                    console.log(origin);
+                    break;
+            }
         });
     }
 };
