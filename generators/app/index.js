@@ -55,10 +55,18 @@ module.exports = class extends Generator {
         let apiModules;
         switch (this.answers.apiFramework) {
             case 'express':
-                apiModules = { dependencies: { 'express': "^4.18.1" } };
+                apiModules = { dependencies: { 'express': '^4.18.1' } };
                 break;
-            case 'express':
-                apiModules = { dependencies: { '@hapi/hapi': "^20.2.2" } };
+            case 'hapi':
+                apiModules = {
+                    dependencies: {
+                        '@hapi/hapi': '^20.2.2',
+                        '@hapi/glue': '^8.0.0',
+                        '@hapi/inert': '^6.0.5',
+                        '@hapi/vision': '^6.1.0',
+                        'hapi-swagger': '^14.2.5'
+                    }
+                };
                 break;
             default:
                 apiModules = null;
@@ -73,9 +81,10 @@ module.exports = class extends Generator {
             type: 'module',
             author: this.answers.author,
             scripts: {
-                'test': 'jest'
+                start: 'node src/index.js',
+                test: 'jest'
             },
-            type: "module",
+            type: 'module',
             devDependencies: {
                 'eslint': '^8.10.0',
                 'eslint-config-airbnb-base': '^15.0.0',
@@ -84,7 +93,7 @@ module.exports = class extends Generator {
             },
             engines: {
                 node: '>=12',
-                npm: ">=6"
+                npm: '>=6'
             },
             jest: {
                 roots: [
@@ -101,7 +110,15 @@ module.exports = class extends Generator {
         this.fs.extendJSON(
             this.destinationPath('package.json'),
             apiModules
-                ? { ...pkgJson, ...apiModules, scripts: { start: 'node src/index.js', test: 'jest', "build": `docker build . -t ${this.answers.appname}:${npm_package_version} -t ${this.answers.appname}:latest`, } }
+                ? {
+                    ...pkgJson,
+                    ...apiModules,
+                    scripts: {
+                        start: 'node src/index.js',
+                        test: 'jest',
+                        build: 'docker build . -t ' + this.answers.appname + ':${npm_package_version} -t ' + this.answers.appname + ':latest'
+                    }
+                }
                 : pkgJson
         );
         this.fileList(this.answers).map(({ origin, destination, variables }) => {
@@ -121,6 +138,7 @@ module.exports = class extends Generator {
                     const files = this.answers.api && this.answers.apiFramework !== 'none of the above'
                         ? [
                             { origin: `apis/${this.answers.apiFramework}/index.js`, destination },
+                            { origin: `apis/${this.answers.apiFramework}/api/version.js`, destination: 'src/api/version.js' },
                             { origin: `apis/${this.answers.apiFramework}/api/helloWorld.js`, destination: 'src/api/helloWorld.js' },
                             { origin: 'Dockerfile', destination: 'Dockerfile', variables: { author: this.answers.author, email: this.answers.email } },
                             { origin: '.dockerignore', destination: '.dockerignore' }
